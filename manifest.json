@@ -1,0 +1,29 @@
+{
+    "background_color": "#fbfbfb",
+    "description": "Cadastro de usuários",
+    "dir": "ltr",
+    "display": "standalone",
+    "name": "Cadastro",
+    "orientation": "any",
+    "scope": "/",
+    "short_name": "Cadastro",
+    "start_url": "/index.html",
+    "theme_color": "#e49d27",
+    "categories": [
+      "bussines",
+      "productivity",
+      "finance",
+      "utilities"
+    ],
+    "screenshots": [],
+    "icons": [
+      {
+        "src": "Img/512.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any maskable"
+      }
+    ],
+    "shortcuts": [],
+    "lang": "pt"
+  }

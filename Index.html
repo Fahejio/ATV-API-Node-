@@ -1,0 +1,142 @@
+<html>
+  <head>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Cadastro</title>
+  <meta name="description" content="Cadastro de usuários">
+  <meta content="" name="keywords">
+  <link rel="Manifest" href="manifest.json">
+  <meta name="theme-color" content="#e49d27"/>
+  <link href="../static/picture.css" rel="stylesheet">
+  <link href="CSS/MenSucess" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    
+    
+  <div class="jumbotron text-center">    
+    </form>
+    
+      <h1>Enviar dados para o MongoDB</h1>
+    <form method="post" id="Cadastro" method="/">
+      <label>
+        Nome:
+        <input type="text" id="Nome" name="Nome"  />
+      </label>
+      <br />
+      <label>
+        E-mail:
+        <input type="email" id="email" name="email" />
+      </label>
+      <br />
+      <label>
+        Senha:
+        <input type="password" id="Senha" name="Senha" />
+      </label>
+      <br />
+      <a class="btn btn-primary" onclick="addUser()">Enviar</a>
+      <a class="btn btn-primary" onclick="searchUser(document.getElementById('Nome').value)">Buscar</a>
+    </form>
+
+  </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3 id='Nome'></h3>
+            <p id='email'></p>
+            <p id='Senha'></p>
+        </div>
+      </div>
+    </div>
+    <br />
+
+    <script>
+      function addUser() {
+        event.preventDefault();
+        const formData = {
+          Nome: $('#Nome').val(),
+          email: $('#email').val(),
+          Senha: $('#Senha').val()
+        };
+      
+      if($('#Nome').val() ==""){
+        alert('Campo de nome vazio');
+        return false;
+      }
+      if($('#email').val() ==""){
+        alert('Campo de email vazio');
+        return false;
+      }
+        function validarEmail(email) {
+          const regex = /\S+@\S+\.\S+/;
+          return regex.test(email);
+        }
+        if (validarEmail($('#email').val())) {
+          console.log('Endereço de email válido!');
+        } else {
+          console.log('Endereço de email inválido!');
+          alert('Endereço de email inválido!');
+        return false;
+        }
+      if($('#Senha').val() ==""){
+        alert('Campo de Senha vazio');
+        return false;
+      }    
+        const settings = {
+          "async": true,
+          "crossDomain": true,
+          url: 'http://127.0.0.1:3000/user/add',
+          method: 'POST',
+          data: formData
+        };
+
+        function mostrarMensagem(mensagem, tipo) {
+          const div = $('<div>');
+          div.addClass('alert success');    
+          div.text(mensagem);     
+          $('body').append(div);
+          setTimeout(() => {
+            div.fadeOut(500, () => {
+              div.remove();
+            });
+          }, 3000);
+        }
+        
+        $.ajax(settings).done(function(response) {
+            console.log('Dados enviados com sucesso!');
+            document.getElementById('Nome').value="";
+            document.getElementById('email').value="";
+            document.getElementById('Senha').value="";
+            mostrarMensagem('Formulário enviado com sucesso!', 'success');
+          });
+      }
+    </script>
+    <script>
+      function searchUser() {
+        
+
+        const settings = {
+          "async": true,
+          "crossDomain": true,
+          url: 'http://127.0.0.1:3000/user/',
+          method: 'GET'
+        }
+
+          $.ajax(settings).done(function (response) {
+            console.log(response);
+            $('#Nome').append(response.Nome);
+            $('#email').append(response.email);
+            $('#Senha').append(response.Senha);
+          });
+        };
+    </script>
+    <script>
+      if (typeof navigator.serviceWorker !== 'undefined') {
+        navigator.serviceWorker.register('pwabuilder-sw.js')
+      }
+    </script>
+</body>
+</html>
